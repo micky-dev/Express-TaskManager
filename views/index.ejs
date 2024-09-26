@@ -1,0 +1,33 @@
+<main>
+    <div class="section-1">
+        <div class="text-container">
+            <div class="big-text">
+                <h1>Organize Your Tasks Efficiently.</h1>
+            </div>
+            <div class="small-text">
+                Create, manage, update, and track your to-do list effortlessly.
+            </div>
+        </div>
+    </div>
+    <div class="section-2">
+            <div class="form">
+                <form action="/tasks/create" method="post">
+                    <div class="container-1">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Enter task's name" required>
+                    </div>
+                    <div class="container-1">
+                        <label>Due date</label>
+                        <input type="date" name="dueDate" placeholder="Enter task's name" required>
+                    </div>
+                    <div class="container-1">
+                        <label>Description</label>
+                        <input type="text" name="description" placeholder="Enter description" required>
+                    </div>
+                    <div class="btn-container">
+                        <button type="submit">Submit task</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</main>

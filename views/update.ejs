@@ -1,0 +1,20 @@
+<div class="form">
+    <form action="/tasks/put/?_method=PUT" method="POST">
+        <input type="text" hidden="true" value="<%=locals.slug%>" name="slug">
+        <div class="container-1">
+            <label>Name</label>
+            <input type="text" name="name" value="<%=locals.name%>">
+        </div>
+        <div class="container-1">
+            <label>Due date</label>
+            <input type="date" name="dueDate" value="<%=locals.dueDate%>" >
+        </div>
+        <div class="container-1">
+            <label>Description</label>
+            <input type="text" name="description" value="<%=locals.description%>">
+        </div>
+        <div class="btn-container">
+            <button type="submit">Submit task</button>
+        </div>
+    </form>
+</div>
