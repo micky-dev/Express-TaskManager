@@ -1,47 +1,92 @@
 <div class="container-tasks">
-    <div class="searchbar">
-        <input class="search-icon" type="search" name="task" id="" placeholder="Search for tasks">
-    
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-              </svg>
-      
-    </div>
-    <div class="inner-container">
-        <% locals.forEach(task => 
-        { %>
-            <div class="card-container">
-                <div class="card" >
-                    <div class="card-body">
-                        <div>
-                            <h4 class="task-name"><%=task.name%></h4>
-                        </div>
-                        <div class="task-dueDate">
-                            <h5>Due date:</h5>
-                            <p><%=task.dueDate%></p>
-                        </div>
-                        <div class="task-description">
-                            <h5>Description:</h5>
-                            <p class="text"><%=task.description%></p>
-                        </div>
-                        <div class="card-links">
-                            <button>
-                                <a href="#" class="card-link">Complete</a>
-                            </button>
-                            <form method='POST' action="/tasks/delete/<%=task.slug%>/?_method=DELETE">
-                                <button type="submit">Delete</button>
-                            </form>
-                            
-                            <form method='POST' action="/tasks/put/<%=task.slug%>/?_method=PUT" style="color:blue" method="PUT">
-                                <button type="submit" style="border:none;width:40px;">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
+  <div class="searchbar">
+    <input
+      class="search-icon"
+      type="search"
+      name="task"
+      id=""
+      placeholder="Search for tasks"
+    />
 
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-search"
+      viewBox="0 0 16 16"
+    >
+      <path
+        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+      />
+    </svg>
+  </div>
+  <div class="inner-container">
+    <% locals.forEach(task => { %>
+    <div class="card-container">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <h4 class="task-name"><%=task.name%></h4>
+          </div>
+          <div class="task-dueDate">
+            <h5>Due date:</h5>
+            <p><%=task.dueDate%></p>
+          </div>
+          <div class="task-description">
+            <h5>Description:</h5>
+            <p class="text"><%=task.description%></p>
+          </div>
+          <div class="card-links">
+            <button>
+              <a href="#" class="card-link">Complete</a>
+            </button>
+            <form
+              method="POST"
+              action="/tasks/delete/<%=task.slug%>/?_method=DELETE"
+            >
+              <button type="submit">Delete</button>
+            </form>
+
+            <form
+              method="POST"
+              class="edit-button"
+              action="/tasks/put/<%=task.slug%>/?_method=PUT"
+              style="color: blue"
+              method="PUT"
+            >
+              <button type="submit" style="border: none; width: 40px">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
+    <% }) %> <% if (locals.updating) { %>
+    <div class="container-update">
+        <div class="form form-update">
+            <form action="/tasks/put/?_method=PUT" method="POST">
+                <input type="text" hidden="true" value="<%=task.slug%>" name="slug">
+                <div class="container-1">
+                    <label>Name</label>
+                    <input type="text" name="name" value="<%=task.name%>">
+                </div>
+                <div class="container-1">
+                    <label>Due date</label>
+                    <input type="date" name="dueDate" value="<%=task.dueDate%>" >
+                </div>
+                <div class="container-1">
+                    <label>Description</label>
+                    <input type="text" name="description" value="<%=task.description%>">
+                </div>
+                <div class="btn-container">
+                    <button type="submit">Submit task</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <% } else { %> <% } %>
+  </div>
 </div>

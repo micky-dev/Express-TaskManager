@@ -1,7 +1,7 @@
 const express = require('express')
 const taskModel = require('../shcema/task-schema')
 const tasksRouter = express.Router()
-require('.././shcema/task-schema')
+
 
 
 
@@ -25,17 +25,33 @@ tasksRouter.post('/create', async (req, res) =>
         
     })
 
-tasksRouter.get('/retreive', async (req, res) => 
+tasksRouter.get('/retreive/:updating?/:slug?/:name?/:dueDate?/:description?', async (req, res) => 
     {
         try
         {
-            var locals = await taskModel.find()
+            const locals = await taskModel.find()
+            if (req.params.updating ==="true")
+                {
+                    locals.updating = true
+                    const task = 
+                    {
+                        slug:req.params.slug,
+                        name:req.params.name,
+                        dueDate:req.params.dueDate,
+                        description:req.params.description,
+                    }
+                    res.render('tasks',{locals:locals,task:task})
+                }
+                else
+                {
+                    res.render('tasks',{locals:locals}) 
+                }
         }
         catch(error)
         {
             console.log(error)
         }
-        res.render('tasks',{locals:locals})
+        
     })
 
 tasksRouter.put('/put/:slug?',async (req, res) => 
@@ -44,21 +60,20 @@ tasksRouter.put('/put/:slug?',async (req, res) =>
             {
                 if (req.params.slug)
                     {
-                        const task = await taskModel.findOne({slug:req.params.slug})
-                        const locals = 
+                        const taskInstance = await taskModel.findOne({slug:req.params.slug})
+                        const task = 
                         {
-                            slug:task.slug,
-                            name:task.name,
-                            dueDate:task.dueDate.toISOString().split('T')[0],
-                            description:task.description
+                            slug:taskInstance.slug,
+                            name:taskInstance.name,
+                            dueDate:taskInstance.dueDate.toISOString().split('T')[0],
+                            description:taskInstance.description,
                         }
-                        res.render('update',{locals:locals})
+                        res.redirect(`/tasks/retreive/${true}/${task.slug}/${task.name}/${task.dueDate}/${task.description}`)
                     }else
                     {
                         await taskModel.findOneAndUpdate({slug:req.body.slug},req.body)
-                        res.redirect('/tasks/retreive')
+                        res.redirect('/tasks/retreive/')
                     }
-
               
             }catch(error)
             {
@@ -80,15 +95,9 @@ tasksRouter.delete('/delete/:slug',async (req, res) =>
         
     })
 
-
-
-
 //* Create Task
 // * Retreive Tasks
-//? Update Task
+//* Update Task
 //* Delete Task
-
-
-
 
 module.exports = tasksRouter
